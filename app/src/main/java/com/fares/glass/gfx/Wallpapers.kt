@@ -28,9 +28,7 @@ object Wallpapers {
     private class Preset(@StringRes val name: Int, val base: Int, val blobs: IntArray, val ribbons: IntArray)
 
     private val presets = listOf(
-        Preset(R.string.wallpaper_liquid, 0xFF070B1E.toInt(),
-            intArrayOf(0xFF3D2BE0.toInt(), 0xFFB0309A.toInt(), 0xFF0E9FB8.toInt(), 0xFF1B3FA8.toInt(), 0xFFFF7A45.toInt()),
-            intArrayOf(0xFFFFFFFF.toInt(), 0xFF9AD8FF.toInt(), 0xFFFFB3E6.toInt())),
+        Preset(R.string.wallpaper_photo, 0xFF000000.toInt(), intArrayOf(), intArrayOf()),
         Preset(R.string.wallpaper_aurora, 0xFF03140F.toInt(),
             intArrayOf(0xFF12B886.toInt(), 0xFF0B7285.toInt(), 0xFF6741D9.toInt(), 0xFF0B3D2E.toInt(), 0xFF63E6BE.toInt()),
             intArrayOf(0xFFB2F2BB.toInt(), 0xFFFFFFFF.toInt(), 0xFFD0BFFF.toInt())),
@@ -54,6 +52,14 @@ object Wallpapers {
         context.getString(if (index >= presets.size && hasCustom(context)) R.string.wallpaper_photo else presets[index % presets.size].name)
 
     fun load(context: Context, index: Int): Bitmap {
+        if (customFile.canRead()) {
+            val opts = BitmapFactory.Options().apply { inJustDecodeBounds = true }
+            BitmapFactory.decodeFile(customFile.path, opts)
+            var sample = 1
+            while (opts.outWidth / (sample * 2) >= 1920) sample *= 2
+            BitmapFactory.decodeFile(customFile.path, BitmapFactory.Options().apply { inSampleSize = sample })
+                ?.let { return it }
+        }
         if (index >= presets.size && hasCustom(context)) {
             val opts = BitmapFactory.Options().apply { inJustDecodeBounds = true }
             BitmapFactory.decodeFile(customFile.path, opts)
