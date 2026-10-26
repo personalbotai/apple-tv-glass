@@ -137,7 +137,7 @@ fun HomeScreen(
                 state.focus = it
             }
             Mode.Menu -> state.menuIndex = (state.menuIndex + dy).coerceIn(0, menu.lastIndex)
-            Mode.Control -> Unit // handled by the Control Center
+            Mode.Control, Mode.Blackout -> Unit
         }
     }
 
@@ -163,6 +163,7 @@ fun HomeScreen(
                 }
             }
             Mode.Control -> Unit
+            Mode.Blackout -> Unit
         }
     }
 
@@ -175,7 +176,7 @@ fun HomeScreen(
 
     fun back() {
         when (state.mode) {
-            Mode.Menu, Mode.Control, Mode.Top -> state.mode = Mode.Browse
+            Mode.Menu, Mode.Control, Mode.Top, Mode.Blackout -> state.mode = Mode.Browse
             Mode.Jiggle -> { repo.saveOrder(); state.mode = Mode.Browse }
             Mode.Browse -> if (row > 0) state.focus %= Metrics.COLS
         }
