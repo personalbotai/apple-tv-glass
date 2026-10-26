@@ -105,4 +105,5 @@
     <string name="wallpaper_dusk">Dusk</string>
     <string name="wallpaper_graphite">Graphite</string>
     <string name="wallpaper_photo">Photo</string>
+    <string name="accessibility_service_description">GlassLauncher Global Remote Service for Custom Shortcuts</string>
 </resources>

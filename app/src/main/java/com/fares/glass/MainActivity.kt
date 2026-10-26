@@ -108,18 +108,28 @@ class MainActivity : ComponentActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         intent.getStringExtra("name")?.let(repo::setName)
-        home.goHome()
+        when (intent.getStringExtra("action")) {
+            "toggle_blackout" -> {
+                home.mode = if (home.mode == Mode.Blackout) Mode.Browse else Mode.Blackout
+            }
+            "toggle_control_center" -> {
+                if (home.mode == Mode.Control) {
+                    cc.close()
+                    home.mode = Mode.Browse
+                } else {
+                    home.mode = Mode.Control
+                    cc.open(com.fares.glass.ui.CcPage.Main)
+                }
+            }
+            else -> home.goHome()
+        }
     }
 
     override fun dispatchKeyEvent(event: android.view.KeyEvent): Boolean {
         if (event.action == android.view.KeyEvent.ACTION_DOWN) {
             if (event.keyCode == 4020) {
                 // Toggle Blackout Mode (Layar Hitam Pekat tanpa memutus Wi-Fi / ADB)
-                if (home.mode == com.fares.glass.ui.Mode.Blackout) {
-                    home.mode = com.fares.glass.ui.Mode.Browse
-                } else {
-                    home.mode = com.fares.glass.ui.Mode.Blackout
-                }
+                home.mode = if (home.mode == Mode.Blackout) Mode.Browse else Mode.Blackout
                 return true
             }
             if (event.keyCode == 4065) {
@@ -131,8 +141,13 @@ class MainActivity : ComponentActivity() {
             }
             if (event.keyCode == 4077) {
                 try {
-                    home.mode = com.fares.glass.ui.Mode.Control
-                    cc.open(com.fares.glass.ui.CcPage.Main)
+                    if (home.mode == Mode.Control) {
+                        cc.close()
+                        home.mode = Mode.Browse
+                    } else {
+                        home.mode = Mode.Control
+                        cc.open(com.fares.glass.ui.CcPage.Main)
+                    }
                 } catch (e: Exception) {}
                 return true
             }
