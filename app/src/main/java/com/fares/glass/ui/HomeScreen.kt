@@ -246,6 +246,15 @@ fun HomeScreen(
             .focusable()
             .onPreviewKeyEvent(::onKey),
     ) {
+        if (state.mode == Mode.Blackout) {
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .background(Color.Black)
+            )
+            return
+        }
+
         // Background: sharp at the top of the home screen, blurred and dimmed once you move into the grid.
         Crossfade(wallpaper, animationSpec = tween(700), label = "wallpaper") { img ->
             if (img != null) {
@@ -339,15 +348,8 @@ fun HomeScreen(
             cc.Panel(backdrop, wallpaperName, Modifier)
         }
 
-        if (state.mode == Mode.Blackout) {
-            Box(
-                Modifier
-                    .fillMaxSize()
-                    .background(Color.Black)
-            )
-        } else {
-            val tx = tileX(state.focus).value
-            val ty = tileY(state.focus)
+        val tx = tileX(state.focus).value
+        val ty = tileY(state.focus)
             val above = ty - MenuHeight.value - 14f > 16f
             val mx = (tx + Metrics.TileW.value / 2 - MenuWidth.value / 2)
                 .coerceIn(Metrics.Margin.value, 960f - Metrics.Margin.value - MenuWidth.value)
