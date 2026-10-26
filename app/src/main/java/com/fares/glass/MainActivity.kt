@@ -108,7 +108,7 @@ class MainActivity : ComponentActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         intent.getStringExtra("name")?.let(repo::setName)
-        if (intent.hasCategory(Intent.CATEGORY_HOME)) home.goHome()
+        home.goHome()
     }
 
     override fun onDestroy() {
