@@ -252,10 +252,8 @@ fun HomeScreen(
                     .fillMaxSize()
                     .background(Color.Black)
             )
-            return
-        }
-
-        // Background: sharp at the top of the home screen, blurred and dimmed once you move into the grid.
+        } else {
+            // Background: sharp at the top of the home screen, blurred and dimmed once you move into the grid.
         Crossfade(wallpaper, animationSpec = tween(700), label = "wallpaper") { img ->
             if (img != null) {
                 Image(img, null, Modifier.fillMaxSize(), contentScale = ContentScale.Crop, filterQuality = FilterQuality.Low)
@@ -363,6 +361,7 @@ fun HomeScreen(
             ) {
                 ContextMenu(backdrop, focused?.label.orEmpty(), menu, state.menuIndex, Modifier)
             }
+        }
         }
         cc.PasswordLayer(backdrop) { focusRequester.requestFocus() }
     }
