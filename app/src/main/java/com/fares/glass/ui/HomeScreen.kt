@@ -191,8 +191,15 @@ fun HomeScreen(
 
     fun onKey(event: KeyEvent): Boolean {
         val e = event.nativeKeyEvent
-        if (state.mode == Mode.Control) return cc.onKey(e)
         val down = e.action == AndroidKey.ACTION_DOWN
+        if (state.mode == Mode.Blackout) {
+            if (down) {
+                // Sentuhan tombol apa saja membangunkan dari blackout mode
+                state.mode = Mode.Browse
+            }
+            return true
+        }
+        if (state.mode == Mode.Control) return cc.onKey(e)
         when (e.keyCode) {
             AndroidKey.KEYCODE_DPAD_CENTER, AndroidKey.KEYCODE_ENTER, AndroidKey.KEYCODE_NUMPAD_ENTER,
             AndroidKey.KEYCODE_BUTTON_A -> {
@@ -331,7 +338,14 @@ fun HomeScreen(
             cc.Panel(backdrop, wallpaperName, Modifier)
         }
 
-        if (focused != null) {
+        if (state.mode == Mode.Blackout) {
+            Box(
+                Modifier
+                    .fillMaxSize()
+                    .background(Color.Black)
+            )
+            return
+        }
             val tx = tileX(state.focus).value
             val ty = tileY(state.focus)
             val above = ty - MenuHeight.value - 14f > 16f

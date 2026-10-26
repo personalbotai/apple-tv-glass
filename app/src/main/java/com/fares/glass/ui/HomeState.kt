@@ -21,7 +21,7 @@ object Metrics {
     const val FOCUS_SCALE = 1.13f
 }
 
-enum class Mode { Browse, Top, Jiggle, Menu, Control }
+enum class Mode { Browse, Top, Jiggle, Menu, Control, Blackout }
 
 /** Last requested move: the tile tilts that way (or "bumps" when blocked). */
 data class Nudge(val dx: Int, val dy: Int, val tick: Int)

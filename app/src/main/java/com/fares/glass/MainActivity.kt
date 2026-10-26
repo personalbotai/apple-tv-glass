@@ -114,16 +114,12 @@ class MainActivity : ComponentActivity() {
     override fun dispatchKeyEvent(event: android.view.KeyEvent): Boolean {
         if (event.action == android.view.KeyEvent.ACTION_DOWN) {
             if (event.keyCode == 4020) {
-                try {
-                    val am = getSystemService(Context.POWER_SERVICE) as android.os.PowerManager
-                    // Coba matikan layar via PowerManager jika didukung, atau gunakan kunci layar / screen off
-                    val wakeLock = am.newWakeLock(android.os.PowerManager.PARTIAL_WAKE_LOCK, "Glass:ScreenOff")
-                    wakeLock.acquire(1)
-                    wakeLock.release()
-                } catch (e: Exception) {}
-                try {
-                    Runtime.getRuntime().exec(arrayOf("su", "-c", "input keyevent 223"))
-                } catch (e: Exception) {}
+                // Toggle Blackout Mode (Layar Hitam Pekat tanpa memutus Wi-Fi / ADB)
+                if (home.mode == com.fares.glass.ui.Mode.Blackout) {
+                    home.mode = com.fares.glass.ui.Mode.Browse
+                } else {
+                    home.mode = com.fares.glass.ui.Mode.Blackout
+                }
                 return true
             }
             if (event.keyCode == 4065) {
