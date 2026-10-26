@@ -357,7 +357,6 @@ fun HomeScreen(
                 ContextMenu(backdrop, focused?.label.orEmpty(), menu, state.menuIndex, Modifier)
             }
         }
-        }
         cc.PasswordLayer(backdrop) { focusRequester.requestFocus() }
     }
 
