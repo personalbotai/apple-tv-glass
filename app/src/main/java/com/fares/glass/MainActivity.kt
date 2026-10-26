@@ -111,6 +111,27 @@ class MainActivity : ComponentActivity() {
         home.goHome()
     }
 
+    override fun dispatchKeyEvent(event: android.view.KeyEvent): Boolean {
+        if (event.action == android.view.KeyEvent.ACTION_DOWN) {
+            if (event.keyCode == 4020) {
+                // Matikan layar tanpa deep sleep hardware
+                try {
+                    Runtime.getRuntime().exec("input keyevent 223")
+                } catch (e: Exception) {}
+                return true
+            }
+            if (event.keyCode == 4065) {
+                // Buka SmartTube langsung
+                try {
+                    val intent = packageManager.getLaunchIntentForPackage("org.smarttube.stable")
+                    if (intent != null) startActivity(intent)
+                } catch (e: Exception) {}
+                return true
+            }
+        }
+        return super.dispatchKeyEvent(event)
+    }
+
     override fun onDestroy() {
         unregisterReceiver(packages)
         super.onDestroy()

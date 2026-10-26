@@ -220,6 +220,23 @@ fun HomeScreen(
             AndroidKey.KEYCODE_DPAD_DOWN -> if (down) move(0, 1)
             AndroidKey.KEYCODE_BACK -> if (down && e.repeatCount == 0) back()
             AndroidKey.KEYCODE_MENU -> if (down && e.repeatCount == 0) menuKey()
+            4020 -> if (down) {
+                // Matikan layar (Screen Off) tanpa masuk deep sleep hardware
+                try {
+                    val am = context.getSystemService(Context.POWER_SERVICE) as android.os.PowerManager
+                    // Fallback perintah shell untuk screen off
+                    Runtime.getRuntime().exec(arrayOf("su", "-c", "input keyevent 223"))
+                } catch (ex: Exception) {
+                    try { Runtime.getRuntime().exec("input keyevent 223") } catch (e: Exception) {}
+                }
+            }
+            4065 -> if (down) {
+                // Buka SmartTube langsung
+                try {
+                    val intent = context.packageManager.getLaunchIntentForPackage("org.smarttube.stable")
+                    if (intent != null) context.startActivity(intent)
+                } catch (e: Exception) {}
+            }
             AndroidKey.KEYCODE_MEDIA_PLAY_PAUSE -> if (down && state.mode == Mode.Jiggle) {
                 state.menuIndex = 0
                 state.mode = Mode.Menu
