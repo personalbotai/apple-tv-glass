@@ -345,8 +345,7 @@ fun HomeScreen(
                     .fillMaxSize()
                     .background(Color.Black)
             )
-            return
-        }
+        } else {
             val tx = tileX(state.focus).value
             val ty = tileY(state.focus)
             val above = ty - MenuHeight.value - 14f > 16f
@@ -360,7 +359,7 @@ fun HomeScreen(
                 ),
                 exit = fadeOut(tween(140)) + scaleOut(targetScale = 0.94f),
             ) {
-                ContextMenu(backdrop, focused.label, menu, state.menuIndex, Modifier)
+                ContextMenu(backdrop, focused?.label.orEmpty(), menu, state.menuIndex, Modifier)
             }
         }
         cc.PasswordLayer(backdrop) { focusRequester.requestFocus() }
