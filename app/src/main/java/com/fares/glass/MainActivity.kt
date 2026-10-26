@@ -115,7 +115,14 @@ class MainActivity : ComponentActivity() {
         if (event.action == android.view.KeyEvent.ACTION_DOWN) {
             if (event.keyCode == 4020) {
                 try {
-                    Runtime.getRuntime().exec("input keyevent 223")
+                    val am = getSystemService(Context.POWER_SERVICE) as android.os.PowerManager
+                    // Coba matikan layar via PowerManager jika didukung, atau gunakan kunci layar / screen off
+                    val wakeLock = am.newWakeLock(android.os.PowerManager.PARTIAL_WAKE_LOCK, "Glass:ScreenOff")
+                    wakeLock.acquire(1)
+                    wakeLock.release()
+                } catch (e: Exception) {}
+                try {
+                    Runtime.getRuntime().exec(arrayOf("su", "-c", "input keyevent 223"))
                 } catch (e: Exception) {}
                 return true
             }
@@ -123,6 +130,13 @@ class MainActivity : ComponentActivity() {
                 try {
                     val intent = packageManager.getLaunchIntentForPackage("org.smarttube.stable")
                     if (intent != null) startActivity(intent)
+                } catch (e: Exception) {}
+                return true
+            }
+            if (event.keyCode == 4077) {
+                try {
+                    home.mode = com.fares.glass.ui.Mode.Control
+                    cc.open(com.fares.glass.ui.CcPage.Main)
                 } catch (e: Exception) {}
                 return true
             }
