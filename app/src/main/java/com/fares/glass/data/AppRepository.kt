@@ -83,15 +83,47 @@ class AppRepository(context: Context) {
         return byPkg.values.toList()
     }
 
-    private fun hidden(): Set<String> = prefs.getStringSet("hidden", emptySet()).orEmpty()
+    companion object {
+        val DEFAULT_DOCK = listOf(
+            "org.smarttube.stable",
+            "com.tcl.tv",
+            "com.personalbotai.idlix",
+            "com.community.mbox.tv",
+            "com.devinterestdev.streamshow"
+        )
+        val DEFAULT_HIDDEN = setOf(
+            "com.tcl.guard",
+            "com.tcl.tclassistant",
+            "com.tcl.usercenter",
+            "com.tcl.messagebox",
+            "com.tcl.waterfall.overseas",
+            "com.tcl.channelplus",
+            "com.tcl.settings",
+            "com.android.tv.settings",
+            "com.tcl.bi"
+        )
+    }
+
+    private fun hidden(): Set<String> {
+        val userHidden = prefs.getStringSet("hidden", null)
+        if (userHidden == null) {
+            return DEFAULT_HIDDEN
+        }
+        return userHidden
+    }
 
     private fun publish() {
-        val rank = prefs.getString("order", "").orEmpty().split('|').withIndex().associate { it.value to it.index }
+        val savedOrder = prefs.getString("order", null)
+        val rank: Map<String, Int> = if (savedOrder != null) {
+            savedOrder.split('|').withIndex().associate { it.value to it.index }
+        } else {
+            DEFAULT_DOCK.withIndex().associate { it.value to it.index }
+        }
         val hidden = hidden()
         // User order first; new apps go at the end, TV apps before mobile apps.
         apps = installed
             .sortedWith(compareBy<AppEntry>({ rank[it.pkg] ?: Int.MAX_VALUE }, { !it.isTv }, { it.label.lowercase() }))
-            .filter { it.pkg !in hidden }
+            .filter { it.pkg !in hidden && !it.pkg.contains("rcu", ignoreCase = true) && !it.pkg.contains("bt_rcu", ignoreCase = true) }
         hiddenCount = installed.count { it.pkg in hidden }
     }
 
