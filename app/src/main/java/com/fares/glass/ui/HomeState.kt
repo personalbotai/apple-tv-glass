@@ -15,7 +15,7 @@ object Metrics {
     val TileH = 76.dp // 5:3, like tvOS icons
     val Pitch = 128.dp
     /** First row position at the top: the Top Shelf fills the space above it. */
-    val TopRowY = 392.dp
+    val TopRowY = 422.dp
     /** Position of the selected row once you have moved into the grid. */
     val GridRowY = 150.dp
     const val FOCUS_SCALE = 1.13f
