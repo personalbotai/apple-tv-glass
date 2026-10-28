@@ -112,6 +112,7 @@
             android:excludeFromRecents="true"
             android:resumeWhilePausing="true"
             android:screenOrientation="landscape"
+            android:theme="@style/Theme.Glass"
             android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout|smallestScreenSize|uiMode|density">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -121,5 +122,13 @@
                 <category android:name="android.intent.category.LEANBACK_LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ControlCenterOverlayActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.Glass.TranslucentOverlay"
+            android:excludeFromRecents="true"
+            android:screenOrientation="landscape"
+            android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout|smallestScreenSize|uiMode|density" />
     </application>
 </manifest>

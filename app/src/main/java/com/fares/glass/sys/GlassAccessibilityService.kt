@@ -4,6 +4,7 @@ import android.accessibilityservice.AccessibilityService
 import android.content.Intent
 import android.view.KeyEvent
 import android.view.accessibility.AccessibilityEvent
+import com.fares.glass.ControlCenterOverlayActivity
 import com.fares.glass.MainActivity
 
 class GlassAccessibilityService : AccessibilityService() {
@@ -33,12 +34,19 @@ class GlassAccessibilityService : AccessibilityService() {
                     return true
                 }
                 4077 -> {
-                    // Global Control Center toggle (buka / tutup seperti tombol menu)
-                    val intent = Intent(this, MainActivity::class.java).apply {
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                        putExtra("action", "toggle_control_center")
+                    val currentPkg = rootInActiveWindow?.packageName
+                    if (currentPkg == packageName) {
+                        val intent = Intent(this, MainActivity::class.java).apply {
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                            putExtra("action", "toggle_control_center")
+                        }
+                        startActivity(intent)
+                    } else {
+                        val intent = Intent(this, ControlCenterOverlayActivity::class.java).apply {
+                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                        }
+                        startActivity(intent)
                     }
-                    startActivity(intent)
                     return true
                 }
             }
