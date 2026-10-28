@@ -94,6 +94,7 @@
         <service
             android:name=".sys.GlassAccessibilityService"
             android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:directBootAware="true"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.accessibilityservice.AccessibilityService" />
