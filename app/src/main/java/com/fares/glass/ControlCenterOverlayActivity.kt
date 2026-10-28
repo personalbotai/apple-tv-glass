@@ -45,6 +45,9 @@ class ControlCenterOverlayActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Don't recreate or finish on focus loss
+        window.setBackgroundDrawable(android.graphics.drawable.ColorDrawable(android.graphics.Color.TRANSPARENT))
+        window.setDimAmount(0f)
         repo = AppRepository(this)
         Typo.load(this)
         cc = ControlCenter(
@@ -65,7 +68,7 @@ class ControlCenterOverlayActivity : ComponentActivity() {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
-                        .background(Color.Black.copy(alpha = 0.35f))
+                        .background(Color.Transparent)
                         .focusRequester(focusRequester)
                         .focusable()
                         .onPreviewKeyEvent { event ->

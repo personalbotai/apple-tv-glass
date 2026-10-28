@@ -47,7 +47,7 @@ class GlassAccessibilityService : AccessibilityService() {
                 }
                 4077 -> {
                     val intent = Intent(this, ControlCenterOverlayActivity::class.java).apply {
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     }
                     startActivity(intent)
                     return true
