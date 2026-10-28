@@ -11,8 +11,11 @@ class GlassAccessibilityService : AccessibilityService() {
 
     override fun onServiceConnected() {
         super.onServiceConnected()
-        val info = serviceInfo.apply {
-            flags = flags or android.accessibilityservice.AccessibilityServiceInfo.FLAG_REQUEST_FILTER_KEY_EVENTS
+        val info = android.accessibilityservice.AccessibilityServiceInfo().apply {
+            eventTypes = android.accessibilityservice.AccessibilityEvent.TYPES_ALL_MASK
+            feedbackType = android.accessibilityservice.AccessibilityServiceInfo.FEEDBACK_GENERIC
+            flags = android.accessibilityservice.AccessibilityServiceInfo.FLAG_REQUEST_FILTER_KEY_EVENTS
+            notificationTimeout = 100
         }
         setServiceInfo(info)
     }
