@@ -419,7 +419,7 @@ class ControlCenter(
             AndroidKey.KEYCODE_BACK -> if (e.repeatCount == 0) {
                 if (page == CcPage.Main) close() else { page = CcPage.Main; forgetArmed = null }
             }
-            AndroidKey.KEYCODE_MENU -> if (e.repeatCount == 0) close()
+            AndroidKey.KEYCODE_MENU, 4077 -> if (e.repeatCount == 0) close()
             else -> if (dx != 0 || dy != 0) {
                 if (page == CcPage.Main) moveMain(dx, dy)
                 else if (dx < 0) { page = CcPage.Main; forgetArmed = null } else if (dy != 0) moveDetail(dy)

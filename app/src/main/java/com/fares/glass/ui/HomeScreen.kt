@@ -185,8 +185,9 @@ fun HomeScreen(
     fun menuKey() {
         state.mode = when (state.mode) {
             Mode.Browse, Mode.Top -> { cc.open(CcPage.Main); Mode.Control }
+            Mode.Control -> { cc.close(); Mode.Browse }
             Mode.Jiggle -> { repo.saveOrder(); Mode.Browse }
-            else -> Mode.Browse
+            else -> { cc.close(); Mode.Browse }
         }
     }
 
@@ -227,7 +228,7 @@ fun HomeScreen(
             AndroidKey.KEYCODE_DPAD_UP -> if (down) move(0, -1)
             AndroidKey.KEYCODE_DPAD_DOWN -> if (down) move(0, 1)
             AndroidKey.KEYCODE_BACK -> if (down && e.repeatCount == 0) back()
-            AndroidKey.KEYCODE_MENU -> if (down && e.repeatCount == 0) menuKey()
+            AndroidKey.KEYCODE_MENU, 4077 -> if (down && e.repeatCount == 0) menuKey()
             AndroidKey.KEYCODE_MEDIA_PLAY_PAUSE -> if (down && state.mode == Mode.Jiggle) {
                 state.menuIndex = 0
                 state.mode = Mode.Menu

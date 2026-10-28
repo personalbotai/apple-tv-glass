@@ -33,7 +33,7 @@ class GlassAccessibilityService : AccessibilityService() {
                     return true
                 }
                 4077 -> {
-                    // Global Control Center toggle
+                    // Global Control Center toggle (buka / tutup seperti tombol menu)
                     val intent = Intent(this, MainActivity::class.java).apply {
                         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                         putExtra("action", "toggle_control_center")
