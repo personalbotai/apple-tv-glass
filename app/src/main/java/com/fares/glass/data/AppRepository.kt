@@ -100,7 +100,10 @@ class AppRepository(context: Context) {
             "com.tcl.channelplus",
             "com.tcl.settings",
             "com.android.tv.settings",
-            "com.tcl.bi"
+            "com.tcl.copydatatotv",
+            "com.google.android.tungsten.setupwraith",
+            "com.tcl.initsetup",
+            "com.google.android.feedback"
         )
     }
 
