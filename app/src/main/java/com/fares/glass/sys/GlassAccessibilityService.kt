@@ -4,6 +4,7 @@ import android.accessibilityservice.AccessibilityService
 import android.content.Intent
 import android.view.KeyEvent
 import android.view.accessibility.AccessibilityEvent
+import android.accessibilityservice.AccessibilityServiceInfo
 import com.fares.glass.ControlCenterOverlayActivity
 import com.fares.glass.MainActivity
 
@@ -11,10 +12,10 @@ class GlassAccessibilityService : AccessibilityService() {
 
     override fun onServiceConnected() {
         super.onServiceConnected()
-        val info = android.accessibilityservice.AccessibilityServiceInfo().apply {
-            eventTypes = android.accessibilityservice.AccessibilityEvent.TYPES_ALL_MASK
-            feedbackType = android.accessibilityservice.AccessibilityServiceInfo.FEEDBACK_GENERIC
-            flags = android.accessibilityservice.AccessibilityServiceInfo.FLAG_REQUEST_FILTER_KEY_EVENTS
+        val info = AccessibilityServiceInfo().apply {
+            eventTypes = AccessibilityEvent.TYPES_ALL_MASK
+            feedbackType = AccessibilityServiceInfo.FEEDBACK_GENERIC
+            flags = AccessibilityServiceInfo.FLAG_REQUEST_FILTER_KEY_EVENTS
             notificationTimeout = 100
         }
         setServiceInfo(info)
