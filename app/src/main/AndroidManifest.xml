@@ -126,7 +126,8 @@
         <activity
             android:name=".ControlCenterOverlayActivity"
             android:exported="true"
-            android:launchMode="singleTop"
+            android:launchMode="singleInstance"
+            android:taskAffinity="com.fares.glass.overlay"
             android:theme="@style/Theme.Glass.TranslucentOverlay"
             android:excludeFromRecents="true"
             android:noHistory="true"

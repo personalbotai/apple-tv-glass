@@ -103,7 +103,8 @@ class AppRepository(context: Context) {
             "com.tcl.copydatatotv",
             "com.google.android.tungsten.setupwraith",
             "com.tcl.initsetup",
-            "com.google.android.feedback"
+            "com.google.android.feedback",
+            "com.tcl.micmanager"
         )
     }
 
