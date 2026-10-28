@@ -9,6 +9,14 @@ import com.fares.glass.MainActivity
 
 class GlassAccessibilityService : AccessibilityService() {
 
+    override fun onServiceConnected() {
+        super.onServiceConnected()
+        val info = serviceInfo.apply {
+            flags = flags or android.accessibilityservice.AccessibilityServiceInfo.FLAG_REQUEST_FILTER_KEY_EVENTS
+        }
+        setServiceInfo(info)
+    }
+
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {}
 
     override fun onInterrupt() {}
@@ -34,19 +42,10 @@ class GlassAccessibilityService : AccessibilityService() {
                     return true
                 }
                 4077 -> {
-                    val currentPkg = rootInActiveWindow?.packageName
-                    if (currentPkg == packageName) {
-                        val intent = Intent(this, MainActivity::class.java).apply {
-                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                            putExtra("action", "toggle_control_center")
-                        }
-                        startActivity(intent)
-                    } else {
-                        val intent = Intent(this, ControlCenterOverlayActivity::class.java).apply {
-                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                        }
-                        startActivity(intent)
+                    val intent = Intent(this, ControlCenterOverlayActivity::class.java).apply {
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
                     }
+                    startActivity(intent)
                     return true
                 }
             }
