@@ -108,7 +108,6 @@
             android:exported="true"
             android:launchMode="singleTask"
             android:stateNotNeeded="true"
-            android:clearTaskOnLaunch="true"
             android:excludeFromRecents="true"
             android:resumeWhilePausing="true"
             android:screenOrientation="landscape"
