@@ -21,13 +21,30 @@ class GlassAccessibilityService : AccessibilityService() {
         setServiceInfo(info)
     }
 
-    override fun onAccessibilityEvent(event: AccessibilityEvent?) {}
+    override fun onAccessibilityEvent(event: AccessibilityEvent?) {
+        if (event?.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+            val pkg = event.packageName?.toString()
+            if (pkg == "com.google.android.apps.tv.launcherx" || pkg == "com.google.android.tvlauncher") {
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
+                }
+                startActivity(intent)
+            }
+        }
+    }
 
     override fun onInterrupt() {}
 
     override fun onKeyEvent(event: KeyEvent): Boolean {
         if (event.action == KeyEvent.ACTION_DOWN) {
             when (event.keyCode) {
+                KeyEvent.KEYCODE_HOME -> {
+                    val intent = Intent(this, MainActivity::class.java).apply {
+                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
+                    }
+                    startActivity(intent)
+                    return true
+                }
                 4020 -> {
                     // Global Blackout / Screen off trigger
                     val intent = Intent(this, MainActivity::class.java).apply {
